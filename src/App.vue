@@ -1,14 +1,12 @@
 <script setup>
 import navbar from './layouts/navbar.vue';
-import welcome from './components/sections/welcome.vue';
 </script>
 
 <template>
-<div id="app">
-<navbar></navbar>
-<welcome></welcome>
-</div>
- 
+  <div id="app">
+    <navbar></navbar>
+    <router-view /> <!-- Agrega esto para que el enrutador pueda renderizar las rutas -->
+  </div>
 </template>
 
 <style scoped>

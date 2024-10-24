@@ -8,8 +8,8 @@
           <div class="bar"></div>
         </div>
         <ul :class="['nav-links', { 'active': isMenuOpen }]">
-          <li><a href="#">Inicio</a></li>
-          <li><a href="#">Productos</a></li>
+          <li><a href="/home">Inicio</a></li>
+          <li><a href="/productos">Productos</a></li>
           <li><a href="#">Sobre Nosotros</a></li>
           <li><a href="#">Contacto</a></li>
           <li><a href="#">Carrito</a></li>
