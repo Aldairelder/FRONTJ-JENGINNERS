@@ -5,7 +5,7 @@ import navbar from './layouts/navbar.vue';
 <template>
   <div id="app">
     <navbar></navbar>
-    <router-view /> <!-- Agrega esto para que el enrutador pueda renderizar las rutas -->
+    <router-view /> 
   </div>
 </template>
 
