@@ -7,10 +7,10 @@ import Footer from './layouts/footer.vue'; // Importa el componente Footer
   <div id="app">
     <navbar></navbar>
     <router-view />
-    <Footer /> <!-- Llama al footer aquí -->
+    <Footer />
   </div>
 </template>
 
 <style scoped>
-/* Puedes agregar estilos personalizados aquí si lo necesitas */
+
 </style>
