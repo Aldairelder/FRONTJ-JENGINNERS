@@ -10,7 +10,7 @@ import login from '../views/home/login.vue'
 // Definir las rutas
 const routes = [
   {
-    path: '/home', // Ruta para la página de inicio
+    path: '/' ,// Ruta para la página de inicio
     name: 'Home',
     component: Home
   },
