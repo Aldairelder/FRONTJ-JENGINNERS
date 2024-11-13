@@ -19,6 +19,7 @@ export default {
       <Welcome />
       <about/>
     </div>
+
 </template>
 
 

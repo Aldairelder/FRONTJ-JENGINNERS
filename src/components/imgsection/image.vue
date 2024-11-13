@@ -1,17 +1,22 @@
 <script setup>
-
+defineProps({
+  src: String,
+  alt: String
+})
 </script>
 
 <template>
-  <div class="flex-shrink-0">
+  <div>
     <img
-        src="../../../public/chifondo.fw-1.png"
-        alt="hero imagen"
-        class="rounded-lg object-cover w-full md:w-90"
+        :src="src"
+        :alt="alt"
+
     />
   </div>
 </template>
 
 <style scoped>
-
+  img{
+    border-radius: 15px;
+  }
 </style>
