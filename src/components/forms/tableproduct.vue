@@ -4,7 +4,7 @@
         <h1 class="text-2xl font-bold">Carrito</h1>
         <router-link to="/" class="text-blue-500">Home / Carrito</router-link>
       </div>
-      
+
       <div class="overflow-x-auto">
         <table class="min-w-full bg-white border border-gray-200">
           <thead>
@@ -14,7 +14,7 @@
               <th class="px-4 py-2 text-left text-gray-600">Cantidad</th>
               <th class="px-4 py-2 text-left text-gray-600">Total</th>
               <th class="px-4 py-2 text-left text-gray-600">Acción</th>
-            </tr> 
+            </tr>
           </thead>
           <tbody>
             <tr v-for="(item, index) in cartItems" :key="index" class="border-t">
@@ -31,7 +31,7 @@
           </tbody>
         </table>
       </div>
-  
+
       <div class="mt-4 flex justify-between">
         <div></div>
         <div class="w-full max-w-xs bg-white border border-gray-200 p-4 rounded shadow-md">
@@ -44,7 +44,7 @@
       </div>
     </div>
   </template>
-  
+
   <script>
   export default {
     data() {
@@ -68,7 +68,7 @@
     }
   };
   </script>
-  
+
   <style scoped>
   .container {
     max-width: 1200px;
