@@ -1,14 +1,15 @@
 <script setup>
+defineProps({
+  text: String
+})
 </script>
 
 <template>
   <h1>
-    We’re a passionate group of people building the future of ecommerce
+    {{ text }}
   </h1>
-
-
-
 </template>
+
 
 <style scoped>
 

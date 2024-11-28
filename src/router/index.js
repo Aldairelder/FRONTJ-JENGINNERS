@@ -4,8 +4,10 @@ import { createRouter, createWebHistory } from 'vue-router';
 // Importar las vistas
 import Home from '../views/home/home.vue';
 import Products from '../views/home/products.vue'; // Asegúrate de que la ruta del componente sea correcta
-import cart from '../views/home/shoopcart.vue';
+import cart from '../views/home/shoopcart.vue'
 import login from '../views/home/login.vue'
+import contact from '../views/home/contac.vue'
+import about from '../views/home/about.vue'
 
 // Definir las rutas
 const routes = [
@@ -28,6 +30,16 @@ const routes = [
     path: '/Login', // Ruta para la página de inicio
     name: 'login',
     component: login
+  },
+  {
+    path: '/contacto',
+    name: 'contact',
+    component: contact
+  },
+  {
+    path: '/conocenos',
+    name: 'about',
+    component: about
   }
 ];
 

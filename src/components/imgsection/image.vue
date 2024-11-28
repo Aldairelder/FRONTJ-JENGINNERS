@@ -10,7 +10,6 @@ defineProps({
     <img
         :src="src"
         :alt="alt"
-
     />
   </div>
 </template>

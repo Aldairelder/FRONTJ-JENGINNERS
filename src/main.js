@@ -9,15 +9,22 @@ import App from './App.vue';
 import Aura from '@primevue/themes/aura';
 import 'primeicons/primeicons.css';
 import router from './router'; // Importa el router
+import { createPinia } from 'pinia'; // Importa Pinia
 
 const app = createApp(App);
 
+// Configura PrimeVue con el tema Aura
 app.use(PrimeVue, {
     theme: {
         preset: Aura
     }
 });
 
-app.use(router); // Usa el router en la aplicación
+// Configura Pinia
+const pinia = createPinia();
+app.use(pinia);
+
+// Configura el router
+app.use(router);
 
 app.mount('#app');

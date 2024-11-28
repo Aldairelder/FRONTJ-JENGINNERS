@@ -8,7 +8,7 @@ import PrimaryButton from "../../bouttons/primary-button.vue";
 <template>
   <div class="flex flex-col md:flex-row items-center justify-center max-w-screen-xl mx-auto p-6 md:p-12 space-y-8 md:space-y-0 md:space-x-20">
     <div class="flex flex-col space-y-6 max-w-full md:max-w-lg">
-      <ptitle class="text-4xl md:text-5xl font-bold leading-tight text-gray-900"/>
+      <ptitle text="We’re a passionate group of people building the future of ecommerce" class="text-4xl md:text-5xl font-bold leading-tight text-gray-900"/>
       <ptext class="text-gray-600 text-lg md:text-xl" />
       <primary-button>CONÓCENOS</primary-button>
     </div>
