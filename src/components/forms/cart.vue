@@ -9,11 +9,12 @@
             :key="index"
             class="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start"
         >
-          <img :src="item.image" alt="product-image" class="w-full rounded-lg sm:w-40" />
+          <img :src="`http://localhost:8080/images/${item.imagen}`" alt="product-image" class="w-full rounded-lg sm:w-40" />
           <div class="sm:ml-4 sm:flex sm:w-full sm:justify-between">
             <div class="mt-5 sm:mt-0">
-              <h2 class="text-lg font-bold text-gray-900">{{ item.name }}</h2>
-              <p class="mt-1 text-xs text-gray-700">{{ item.size }}</p>
+              <h2 class="text-lg font-bold text-gray-900">{{ item.nombre }}</h2>
+              <p class="mt-1 text-xs text-gray-700">Cantidad: {{ item.quantity }}</p>
+              <p class="mt-1 text-sm text-slate-400">{{ item.descripcion }}</p>
             </div>
             <div class="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
               <div class="flex items-center border-gray-100">
@@ -28,6 +29,7 @@
                     type="number"
                     v-model.number="item.quantity"
                     min="1"
+                    @input="updateCartItem(index)"
                 />
                 <span
                     @click="increaseQuantity(index)"
@@ -37,7 +39,7 @@
                 </span>
               </div>
               <div class="flex items-center space-x-4">
-                <p class="text-sm">{{ item.price }} ₭</p>
+                <p class="text-sm">S/. {{ item.precioVenta ? item.precioVenta.toFixed(2) : '0.00' }}</p>
                 <svg
                     @click="removeItem(index)"
                     xmlns="http://www.w3.org/2000/svg"
@@ -58,21 +60,25 @@
       <div class="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3">
         <div class="mb-2 flex justify-between">
           <p class="text-gray-700">Subtotal</p>
-          <p class="text-gray-700">{{ subtotal }} ₭</p>
+          <p class="text-gray-700">S/. {{ subtotal.toFixed(2) }}</p>
         </div>
         <div class="flex justify-between">
           <p class="text-gray-700">Shipping</p>
-          <p class="text-gray-700">{{ shippingCost }} ₭</p>
+          <p class="text-gray-700">S/. {{ shippingCost.toFixed(2) }}</p>
         </div>
         <hr class="my-4" />
         <div class="flex justify-between">
           <p class="text-lg font-bold">Total</p>
           <div class="">
-            <p class="mb-1 text-lg font-bold">{{ total }} ₭</p>
-            <p class="text-sm text-gray-700">including VAT</p>
+            <p class="mb-1 text-lg font-bold">S/. {{ total.toFixed(2) }}</p>
+            <p class="text-sm text-gray-700">IGV (18%)</p>
+            <p class="text-sm text-gray-700">S/. {{ igvAmount.toFixed(2) }}</p>
           </div>
         </div>
-        <button class="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600">
+        <button
+            class="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600"
+            @click="checkOut"
+        >
           Check out
         </button>
       </div>
@@ -81,50 +87,65 @@
 </template>
 
 <script>
-import { computed } from "vue";
-import { useCartStore } from "../../stores/cartstore.js"
-
 export default {
   name: "Cart",
-  setup() {
-    const cartStore = useCartStore();
-
-    // Computed properties para acceder al carrito y cálculos derivados
-    const cartItems = computed(() => cartStore.cart);
-    const subtotal = computed(() =>
-        cartItems.value.reduce((sum, item) => sum + item.price * item.quantity, 0)
-    );
-    const shippingCost = 499; // Define este valor fijo
-    const total = computed(() => subtotal.value + shippingCost);
-
-    // Métodos para modificar el carrito
-    const increaseQuantity = (index) => {
-      cartStore.increaseQuantity(index);
-    };
-    const decreaseQuantity = (index) => {
-      if (cartItems.value[index].quantity > 1) {
-        cartStore.decreaseQuantity(index);
-      }
-    };
-    const removeItem = (index) => {
-      cartStore.removeItem(index);
-    };
-
+  data() {
     return {
-      cartItems,
-      subtotal,
-      total,
-      shippingCost,
-      increaseQuantity,
-      decreaseQuantity,
-      removeItem,
+      cartItems: this.initializeCartItems(), // Inicializamos el carrito con cantidades por defecto
+      shippingCost: 50, // Costo de envío fijo
     };
+  },
+  computed: {
+    subtotal() {
+      return this.cartItems.reduce((sum, item) => sum + (item.precioVenta * item.quantity), 0);
+    },
+    total() {
+      return this.subtotal + this.shippingCost + this.igvAmount;
+    },
+    igvAmount() {
+      return this.subtotal * 0.18; // Calcula el IGV como el 18% del subtotal
+    },
+  },
+  methods: {
+    // Inicializar el carrito con cantidades por defecto
+    initializeCartItems() {
+      const items = JSON.parse(localStorage.getItem("carrito")) || [];
+      return items.map((item) => ({
+        ...item,
+        quantity: item.quantity || 1, // Asignar 1 si no tiene cantidad definida
+      }));
+    },
+    // Incrementar cantidad
+    increaseQuantity(index) {
+      this.cartItems[index].quantity++;
+      this.updateCartItem(index);
+    },
+    // Decrementar cantidad
+    decreaseQuantity(index) {
+      if (this.cartItems[index].quantity > 1) {
+        this.cartItems[index].quantity--;
+        this.updateCartItem(index);
+      }
+    },
+    // Actualizar carrito en localStorage y recalcular valores
+    updateCartItem(index) {
+      localStorage.setItem("carrito", JSON.stringify(this.cartItems));
+    },
+    // Eliminar un producto del carrito
+    removeItem(index) {
+      this.cartItems.splice(index, 1);
+      localStorage.setItem("carrito", JSON.stringify(this.cartItems));
+    },
+    // Checkout (lógica personalizada)
+    checkOut() {
+      console.log("Proceeding to checkout...");
+    },
   },
 };
 </script>
 
 <style scoped>
-/* Style to remove the spinner buttons in number input */
+/* Estilo para eliminar el spinner de los inputs */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
